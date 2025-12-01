@@ -26,14 +26,25 @@ class Dial:
         self.size = size
         self.current_position = initial_position
         self.times_touched_0 = 0
+        self.times_passed_0 = 0
 
     def rotate(self, rotation: Rotation):
         match rotation.direction:
             case Direction.RIGHT:
+                self.times_passed_0 += (
+                    self.current_position + rotation.distance
+                ) // self.size
+
                 self.current_position = (
                     self.current_position + rotation.distance
                 ) % self.size
+
             case Direction.LEFT:
+                if self.current_position != 0:
+                    self.times_passed_0 += (
+                        rotation.distance + (100 - self.current_position)
+                    ) // self.size
+
                 self.current_position = (
                     self.current_position - rotation.distance
                 ) % self.size
@@ -51,6 +62,13 @@ def count_times_pointed_zero(instructions: list[Rotation], dial: Dial = Dial()) 
     return dial.times_touched_0
 
 
+def count_times_passed_zero(instructions: list[Rotation], dial: Dial = Dial()) -> int:
+    for rotation in instructions:
+        dial.rotate(rotation)
+
+    return dial.times_passed_0
+
+
 if __name__ == "__main__":
     p = Path(__file__).with_name("input.txt")
     with p.open() as f:
@@ -59,3 +77,4 @@ if __name__ == "__main__":
             dial.rotate(Rotation.parse(line))
 
     print(dial.times_touched_0)
+    print(dial.times_passed_0)
