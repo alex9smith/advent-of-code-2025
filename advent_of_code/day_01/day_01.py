@@ -45,6 +45,9 @@ class Dial:
                         rotation.distance + (100 - self.current_position)
                     ) // self.size
 
+                if self.current_position == 0:
+                    self.times_passed_0 += rotation.distance // self.size
+
                 self.current_position = (
                     self.current_position - rotation.distance
                 ) % self.size

@@ -68,6 +68,16 @@ class TestDial:
         dial.rotate(Rotation(Direction.RIGHT, 300))
         assert dial.times_passed_0 == 3
 
+    def test_rotating_right_more_than_once_starting_from_0_counts_all(self):
+        dial = Dial(initial_position=0)
+        dial.rotate(Rotation(Direction.RIGHT, 350))
+        assert dial.times_passed_0 == 3
+
+    def test_rotating_left_more_than_once_starting_from_0_counts_all(self):
+        dial = Dial(initial_position=0)
+        dial.rotate(Rotation(Direction.LEFT, 350))
+        assert dial.times_passed_0 == 3
+
     def test_rotating_left_more_than_once_counts_all(self, dial: Dial):
         dial.rotate(Rotation(Direction.LEFT, 300))
         assert dial.times_passed_0 == 3
