@@ -1,4 +1,4 @@
-from day_02 import find_all_invalid_ids, is_valid_id, parse_input
+from day_02 import find_all_invalid_ids, parse_input, part_1_is_valid_id
 
 INPUT = "11-22,95-115,998-1012,1188511880-1188511890,222220-222224,1698522-1698528,446443-446449,38593856-38593862,565653-565659,824824821-824824827,2121212118-2121212124"
 TEST_IDS = [
@@ -24,12 +24,12 @@ def test_parse_input():
     assert parsed[-1] == (2121212118, 2121212124)
 
 
-def test_is_valid_id():
+def test_part_1_is_valid_id():
     for id, is_valid in TEST_IDS:
-        assert is_valid_id(id) == is_valid
+        assert part_1_is_valid_id(id) == is_valid
 
 
-def test_find_all_invalid_ids():
+def test_find_all_invalid_ids_part_1():
     assert find_all_invalid_ids(INPUT) == [
         11,
         22,
@@ -39,4 +39,22 @@ def test_find_all_invalid_ids():
         222222,
         446446,
         38593859,
+    ]
+
+
+def test_find_all_invalid_ids_part_2():
+    assert find_all_invalid_ids(INPUT, part_1=False) == [
+        11,
+        22,
+        99,
+        111,
+        999,
+        1010,
+        1188511885,
+        222222,
+        446446,
+        38593859,
+        565656,
+        824824824,
+        2121212121,
     ]
