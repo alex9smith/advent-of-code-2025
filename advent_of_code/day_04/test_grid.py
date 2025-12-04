@@ -19,6 +19,17 @@ def test_get():
     assert grid.get(0, 5) is None
 
 
+def test_set():
+    data = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
+    grid = Grid(data)
+
+    grid.set(0, 0, 100)
+    assert grid.get(0, 0) == 100
+
+    grid.set(1, 2, 200)
+    assert grid.get(1, 2) == 200
+
+
 def test_get_surrounding_no_wrap():
     data = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
     grid = Grid(data)

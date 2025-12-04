@@ -14,6 +14,12 @@ class Grid(Generic[T]):
             return self.data[row][col]
         return None
 
+    def set(self, row: int, col: int, value: T):
+        if 0 <= row < self.rows and 0 <= col < self.cols:
+            self.data[row][col] = value
+        else:
+            raise ValueError("Index out of range")
+
     def get_surrounding(self, row: int, col: int, wrap=False):
         directions = [
             (-1, -1),

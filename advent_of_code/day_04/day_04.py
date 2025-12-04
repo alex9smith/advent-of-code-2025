@@ -18,6 +18,31 @@ def find_number_of_accessible_rolls(grid: Grid[str]) -> int:
     return accessible_rolls
 
 
+def remove_accessible_rolls(grid: Grid[str]) -> tuple[Grid[str], int]:
+    could_be_removed: list[tuple[int, int]] = []
+    for row in range(grid.rows):
+        for col in range(grid.cols):
+            if grid.get(row, col) == "@":
+                surrounding = grid.get_surrounding(row, col, wrap=False)
+                if contains_fewer_than_four_rolls(surrounding):
+                    could_be_removed.append((row, col))
+
+    for row, col in could_be_removed:
+        surrounding = grid.set(row, col, ".")
+
+    return grid, len(could_be_removed)
+
+
+def remove_all_possible_accessible_rolls(grid: Grid[str]) -> int:
+    accessible_rolls = 0
+    while True:
+        grid, rolls = remove_accessible_rolls(grid)
+        if rolls == 0:
+            break
+        accessible_rolls += rolls
+    return accessible_rolls
+
+
 if __name__ == "__main__":
     file = Path(__file__).with_name("input.txt")
     with file.open("r") as f:
@@ -27,3 +52,6 @@ if __name__ == "__main__":
 
     print("Part 1")
     print(find_number_of_accessible_rolls(grid))
+
+    print("Part 2")
+    print(remove_all_possible_accessible_rolls(grid))
