@@ -22,3 +22,7 @@ class TestDatabase:
     def test_count_fresh_ingredients(self):
         db = Database.parse(TEST_INPUT)
         assert db.count_fresh_ingredients() == 3
+
+    def test_count_total_fresh_ids(self):
+        db = Database.parse(TEST_INPUT)
+        assert db.count_total_fresh_ids() == 14

@@ -26,8 +26,27 @@ class Database:
         )
 
     def count_fresh_ingredients(self):
-        return sum(1 for ingredient in self.available_ingredients 
-                  if any(start <= ingredient <= end for start, end in self.valid_ranges))
+        return sum(
+            1
+            for ingredient in self.available_ingredients
+            if any(start <= ingredient <= end for start, end in self.valid_ranges)
+        )
+
+    def count_total_fresh_ids(self):
+        if not self.valid_ranges:
+            return 0
+
+        sorted_ranges = sorted(self.valid_ranges)
+        merged = [sorted_ranges[0]]
+
+        for start, end in sorted_ranges[1:]:
+            last_start, last_end = merged[-1]
+            if start <= last_end + 1:
+                merged[-1] = (last_start, max(last_end, end))
+            else:
+                merged.append((start, end))
+
+        return sum(end - start + 1 for start, end in merged)
 
 
 if __name__ == "__main__":
@@ -40,3 +59,5 @@ if __name__ == "__main__":
     db = Database.parse(INPUT)
     print("Part 1")
     print(db.count_fresh_ingredients())
+    print("Part 2")
+    print(db.count_total_fresh_ids())
